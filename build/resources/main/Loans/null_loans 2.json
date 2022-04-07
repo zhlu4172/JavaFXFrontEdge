@@ -1,0 +1,11 @@
+{
+  "credits": 200000,
+  "loans": 
+    {
+      "due": "2022-04-05 13:03:48.477",
+      "id": "ckoma153c0060zbnzquw2xa29",
+      "repaymentAmount": 280000,
+      "status": "CURRENT",
+      "type": "STARTUP"
+    }
+}

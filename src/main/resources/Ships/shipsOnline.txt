@@ -1,0 +1,26 @@
+Ship type is: ZA-MK-I
+Ship class is: MK-ll
+The maximum Cargo is: 100
+Loading Speed is: 100
+Speed is: 2
+Manufacturer is: Zetra
+Plating is: 5
+Weapons Number is: 5
+
+Ship type is: JW-MK-ll
+Ship class is: MK-ll
+The maximum Cargo is: 100
+Loading Speed is: 25
+Speed is: 2
+Manufacturer is: Jackshaw
+Plating is: 10
+Weapons Number is: 10
+
+Ship type is: ZA-MK-Ill
+Ship class is: MK-Ill
+The maximum Cargo is: 300
+Loading Speed is: 100
+Speed is: 2
+Manufacturer is: Zetra
+Plating is: 10
+Weapons Number is: 10

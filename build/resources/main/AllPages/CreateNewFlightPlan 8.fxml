@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="au.edu.sydney.soft3202.task2.SceneController.CreateFlightPlanController">
+   <children>
+      <Button fx:id="back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#buttonActionController" text="Back" />
+      <Button fx:id="info" layoutX="532.0" layoutY="14.0" mnemonicParsing="false" onAction="#buttonActionController" text="Info" />
+      <Button fx:id="home" layoutX="273.0" layoutY="14.0" mnemonicParsing="false" onAction="#buttonActionController" text="Home" />
+      <Label layoutX="177.0" layoutY="68.0" text="Create New Flight Plan">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="136.0" layoutY="127.0" text="Choose Your Ship">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="shipChoices" layoutX="349.0" layoutY="126.0" prefWidth="150.0" />
+      <Label layoutX="136.0" layoutY="189.0" text="Choose Your Destination">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="destinationChoices" layoutX="349.0" layoutY="188.0" prefWidth="150.0" />
+      <Label fx:id="state" layoutX="352.0" layoutY="357.0" text="Server state: " textOverrun="CENTER_WORD_ELLIPSIS">
+         <font>
+            <Font name="Bauhaus 93" size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="cancel" layoutX="136.0" layoutY="261.0" mnemonicParsing="false" onAction="#buttonActionController" text="Cancel" />
+      <Button fx:id="confirm" layoutX="438.0" layoutY="261.0" mnemonicParsing="false" onAction="#buttonActionController" text="Confirm" />
+      <Button fx:id="current" layoutX="239.0" layoutY="261.0" mnemonicParsing="false" onAction="#buttonActionController" text="Current Flight Plan" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="au.edu.sydney.soft3202.task2.SceneController.CurrentFlightPlanController">
+   <content>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1200.0" prefWidth="500.0">
+         <children>
+            <Button fx:id="back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#buttonActionController" text="Back" />
+            <Button fx:id="zhuyi" layoutX="532.0" layoutY="14.0" mnemonicParsing="false" onAction="#buttonActionController" text="Zhuyi" />
+            <Button fx:id="home" layoutX="273.0" layoutY="14.0" mnemonicParsing="false" onAction="#buttonActionController" text="Home" />
+            <Label layoutX="179.0" layoutY="92.0" text="Your Current Flight Plan">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="state" layoutX="352.0" layoutY="357.0" text="Server state: " textOverrun="CENTER_WORD_ELLIPSIS">
+               <font>
+                  <Font name="Bauhaus 93" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="current" layoutX="140.0" layoutY="150.0" text="Server state: " textOverrun="CENTER_WORD_ELLIPSIS">
+               <font>
+                  <Font name="Bauhaus 93" size="15.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
+   </content>
+</ScrollPane>

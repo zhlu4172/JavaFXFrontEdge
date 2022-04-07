@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="au.edu.sydney.soft3202.task2.SceneController.PurchaseGoodsSuccessController">
+   <children>
+      <Button fx:id="back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Back" />
+      <Button fx:id="home" layoutX="273.0" layoutY="15.0" mnemonicParsing="false" text="Home" />
+      <Button fx:id="zhuyi" layoutX="531.0" layoutY="15.0" mnemonicParsing="false" text="Zhuyi" />
+      <Label layoutX="111.0" layoutY="125.0" text="You Purchase Goods Successfully!">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="179.0" layoutY="155.0" text="">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="details" layoutX="200.0" layoutY="145.0" text="" />
+      <Label fx:id="state" layoutX="352.0" layoutY="357.0" text="Server state: " textOverrun="CENTER_WORD_ELLIPSIS">
+         <font>
+            <Font name="Bauhaus 93" size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

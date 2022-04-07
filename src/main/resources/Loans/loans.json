@@ -1,0 +1,11 @@
+{
+  "loans": [
+    {
+      "amount": 200000,
+      "collateralRequired": false,
+      "rate": 40,
+      "termInDays": 2,
+      "type": "STARTUP"
+    }
+  ]
+}

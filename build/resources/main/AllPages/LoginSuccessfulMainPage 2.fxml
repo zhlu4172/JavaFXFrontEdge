@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="au.edu.sydney.soft3202.task2.SceneController.LoginSuccessController">
+   <children>
+      <Button fx:id="back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#buttonActionController" text="Back" />
+      <Button fx:id="home" layoutX="273.0" layoutY="14.0" mnemonicParsing="false" onAction="#buttonActionController" text="Home" />
+      <Label fx:id="greeting" layoutX="130.0" layoutY="110.0" text="Hi">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="126.0" layoutY="171.0" text="Your Login is Successful!">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="state" layoutX="352.0" layoutY="357.0" text="Server state: " textOverrun="CENTER_WORD_ELLIPSIS">
+         <font>
+            <Font name="Bauhaus 93" size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="loans" layoutX="125.0" layoutY="229.0" mnemonicParsing="false" onAction="#buttonActionController" text="Loans" />
+      <Button fx:id="marketplace" layoutX="187.0" layoutY="229.0" mnemonicParsing="false" onAction="#buttonActionController" text="MarketPlace" />
+      <Button fx:id="ship" layoutX="279.0" layoutY="229.0" mnemonicParsing="false" onAction="#buttonActionController" text="Ship" />
+      <Button fx:id="locations" layoutX="331.0" layoutY="229.0" mnemonicParsing="false" onAction="#buttonActionController" text="Locations" />
+      <Button fx:id="flightplan" layoutX="409.0" layoutY="229.0" mnemonicParsing="false" onAction="#buttonActionController" text="Flight Plan" />
+      <Button fx:id="info" layoutX="531.0" layoutY="15.0" mnemonicParsing="false" onAction="#buttonActionController" text="Zhuyi" />
+   </children>
+</AnchorPane>

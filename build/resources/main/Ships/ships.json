@@ -1,0 +1,57 @@
+{
+  "shipListings": [
+    {
+      "class": "MK-I",
+      "manufacturer": "Gravager",
+      "maxCargo": 300,
+      "plating": 10,
+      "purchaseLocations": [
+        {
+          "location": "OE-PM-TR",
+          "price": 184000
+        },
+        {
+          "location": "OE-NY",
+          "price": 184000
+        }
+      ],
+      "speed": 1,
+      "type": "GR-MK-I",
+      "weapons": 5
+    },
+    {
+      "class": "MK-I",
+      "manufacturer": "Jackshaw",
+      "maxCargo": 100,
+      "plating": 5,
+      "purchaseLocations": [
+        {
+          "location": "OE-PM-TR",
+          "price": 94000
+        },
+        {
+          "location": "OE-NY",
+          "price": 94000
+        }
+      ],
+      "speed": 2,
+      "type": "JW-MK-I",
+      "weapons": 5
+    },
+    {
+      "class": "MK-I",
+      "manufacturer": "Electrum",
+      "maxCargo": 100,
+      "plating": 5,
+      "purchaseLocations": [
+        {
+          "location": "OE-NY",
+          "price": 302400
+        }
+      ],
+      "speed": 2,
+      "type": "EM-MK-I",
+      "weapons": 10
+    }
+  ]
+}
