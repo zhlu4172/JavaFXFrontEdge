@@ -1,10 +1,9 @@
 package au.edu.sydney.soft3202.task2.SceneController;
 
 import au.edu.sydney.soft3202.task2.MiniDB.UserParser;
-import au.edu.sydney.soft3202.task2.System.Game;
+import au.edu.sydney.soft3202.task2.System.SpaceTraderApp;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,17 +14,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import org.json.simple.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 /**
  * @author Emma LU
@@ -47,7 +42,7 @@ public class LoginSuccessController implements Clickable, Initializable {
         initialize(null,null);
         setState(parameters);
         String button = event.getSource().toString();
-        UserParser userParser = new UserParser(Game.username,Game.token);
+        UserParser userParser = new UserParser(SpaceTraderApp.username, SpaceTraderApp.token);
         System.out.println(username);
         switch (button){
             case"Button[id=back, styleClass=button]'Back'":
@@ -78,9 +73,9 @@ public class LoginSuccessController implements Clickable, Initializable {
                 availableLoanController.setToken(token);
 //                UserParser userParser = new UserParser(Game.username,Game.token);
                 if (parameters.equals("offline")){
-                    availableLoanController.setAvailableLoans(userParser.getAvailableLoans());
+                    availableLoanController.setAvailableLoansOffline();
                 }else if(parameters.equals("online")){
-                    String addingToken = "token=" + Game.token;
+                    String addingToken = "token=" + SpaceTraderApp.token;
                     String uri = "https://api.spacetraders.io/types/loans?" + addingToken;
                     HttpRequest request = HttpRequest.newBuilder(new URI(uri))
                             .GET()
@@ -240,7 +235,7 @@ public class LoginSuccessController implements Clickable, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.parameters = Game.parameters;
+        this.parameters = SpaceTraderApp.parameters;
     }
 
     public void setState(String state){
@@ -261,7 +256,7 @@ public class LoginSuccessController implements Clickable, Initializable {
     }
 
     public String getToken(){
-        return this.token;
+        return "666";
     }
 
     public void setUsername(String username){
@@ -275,20 +270,24 @@ public class LoginSuccessController implements Clickable, Initializable {
     }
 
     public String readFakeInfoFile(){
-        String reading_string = "";
-        try {
-            File myObj = new File("src/main/resources/UserListJson/info.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine() + "\n";
-                reading_string += data;
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-        return reading_string;
+//        String reading_string = "";
+//        try {
+//            File myObj = new File("src/main/resources/UserListJson/info.txt");
+//            Scanner myReader = new Scanner(myObj);
+//            while (myReader.hasNextLine()) {
+//                String data = myReader.nextLine() + "\n";
+//                reading_string += data;
+//            }
+//            myReader.close();
+//        } catch (FileNotFoundException e) {
+//            System.out.println("An error occurred.");
+//            e.printStackTrace();
+//        }
+        String returnString = "Username: offline user\n" +
+                "Your Ship count: 0\n" +
+                "Your Joining Time: 2022-04-05T04:15:28.472Z\n" +
+                "Your Current Credits: 200000";
+        return returnString;
     }
 
 

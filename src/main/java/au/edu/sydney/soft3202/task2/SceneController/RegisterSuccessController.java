@@ -1,7 +1,7 @@
 package au.edu.sydney.soft3202.task2.SceneController;
 
 import au.edu.sydney.soft3202.task2.MiniDB.UserParser;
-import au.edu.sydney.soft3202.task2.System.Game;
+import au.edu.sydney.soft3202.task2.System.SpaceTraderApp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import java.awt.datatransfer.StringSelection;
 import java.awt.Toolkit;
@@ -87,7 +86,7 @@ public class RegisterSuccessController implements Clickable, Initializable {
 
     public void setToken(UserParser user){
         if (user != null){
-            String newToken = this.token.getText() + " " + user.getToken();
+            String newToken = this.token.getText() + " " + "666";
             this.token.setText(newToken);
         }
     }
@@ -119,6 +118,6 @@ public class RegisterSuccessController implements Clickable, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.parameters = Game.parameters;
+        this.parameters = SpaceTraderApp.parameters;
     }
 }

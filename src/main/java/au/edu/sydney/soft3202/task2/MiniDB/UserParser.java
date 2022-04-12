@@ -1,17 +1,14 @@
 package au.edu.sydney.soft3202.task2.MiniDB;
 
-import au.edu.sydney.soft3202.task2.System.Game;
+import au.edu.sydney.soft3202.task2.System.SpaceTraderApp;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import wholepackage.UserPost;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 import java.io.*;
 
@@ -194,7 +191,7 @@ public class UserParser {
                 if (((JSONObject)locations.get(j)).get("location").toString().equals(plantStr)){
                     index = (Long) ((JSONObject)locations.get(j)).get("price");
                     System.out.println(index);
-                    if(!checkCredits(Game.username, index)){
+                    if(!checkCredits(SpaceTraderApp.username, index)){
                         System.out.println("bought failed!");
                         return "You don't have enough credits!";
                     }
@@ -205,7 +202,7 @@ public class UserParser {
             }
             if (shipType.equals(shipStr)){
                 System.out.println(index);
-                updateCreditsJson(Game.username, -index);
+                updateCreditsJson(SpaceTraderApp.username, -index);
                 updateShipsBought(ship);
                 hasMatching = true;
                 return "yes";

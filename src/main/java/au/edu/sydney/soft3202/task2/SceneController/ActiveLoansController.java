@@ -1,7 +1,7 @@
 package au.edu.sydney.soft3202.task2.SceneController;
 
 import au.edu.sydney.soft3202.task2.MiniDB.UserParser;
-import au.edu.sydney.soft3202.task2.System.Game;
+import au.edu.sydney.soft3202.task2.System.SpaceTraderApp;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -18,8 +18,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
@@ -28,7 +26,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 /**
  * @author Emma LU
@@ -54,7 +51,7 @@ public class ActiveLoansController implements Clickable, Initializable {
         initialize(null,null);
         setState(parameters);
         String button = event.getSource().toString();
-        UserParser userParser = new UserParser(Game.username,Game.token);
+        UserParser userParser = new UserParser(SpaceTraderApp.username, SpaceTraderApp.token);
         switch (button){
             case"Button[id=back, styleClass=button]'Back'":
                 FXMLLoader availableLoanLoader = new FXMLLoader(getClass().getResource("/AllPages/AvailableLoans.fxml"));
@@ -63,9 +60,9 @@ public class ActiveLoansController implements Clickable, Initializable {
                 availableLoanController.setState(parameters);
 //                UserParser userParser = new UserParser(Game.username,Game.token);
                 if (parameters.equals("offline")){
-                    availableLoanController.setAvailableLoans(userParser.getAvailableLoans());
+                    availableLoanController.setAvailableLoansOffline();
                 }else if(parameters.equals("online")){
-                    String addingToken = "token=" + Game.token;
+                    String addingToken = "token=" + SpaceTraderApp.token;
                     String uri = "https://api.spacetraders.io/types/loans?" + addingToken;
                     System.out.println(uri);
                     HttpRequest request = HttpRequest.newBuilder(new URI(uri))
@@ -96,7 +93,7 @@ public class ActiveLoansController implements Clickable, Initializable {
                 break;
             case "Button[id=info, styleClass=button]'Info'":
                 if (parameters.equals("online")){
-                    String addingToken = "token=" + Game.token;
+                    String addingToken = "token=" + SpaceTraderApp.token;
                     String uri = "https://api.spacetraders.io/my/account?" + addingToken;
                     HttpRequest request = HttpRequest.newBuilder(new URI(uri))
                             .GET()
@@ -136,7 +133,7 @@ public class ActiveLoansController implements Clickable, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.parameters = Game.parameters;
+        this.parameters = SpaceTraderApp.parameters;
     }
 
     public void setState(String state){
@@ -147,7 +144,7 @@ public class ActiveLoansController implements Clickable, Initializable {
     public JSONObject hasActiveLoans(){
         JSONObject returnLoan = null;
         try{
-            FileReader fileReader = new FileReader("src/main/resources/Loans/" + Game.username + "_loans.json");
+            FileReader fileReader = new FileReader("src/main/resources/Loans/" + SpaceTraderApp.username + "_loans.json");
             JSONParser jsonParser = new JSONParser();
             JSONObject loans = (JSONObject)  jsonParser.parse(fileReader);
             returnLoan = loans;
@@ -211,7 +208,7 @@ public class ActiveLoansController implements Clickable, Initializable {
 
     public JsonObject getLoanString(){
         try{
-            String addingToken = "token=" + Game.token;
+            String addingToken = "token=" + SpaceTraderApp.token;
             String uri = "https://api.spacetraders.io/my/loans?" + addingToken;
             HttpRequest request = HttpRequest.newBuilder(new URI(uri))
                     .GET()
@@ -231,20 +228,24 @@ public class ActiveLoansController implements Clickable, Initializable {
         }
     }
     public String readFakeInfoFile(){
-        String reading_string = "";
-        try {
-            File myObj = new File("src/main/resources/UserListJson/info.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine() + "\n";
-                reading_string += data;
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-        return reading_string;
+//        String reading_string = "";
+//        try {
+//            File myObj = new File("src/main/resources/UserListJson/info.txt");
+//            Scanner myReader = new Scanner(myObj);
+//            while (myReader.hasNextLine()) {
+//                String data = myReader.nextLine() + "\n";
+//                reading_string += data;
+//            }
+//            myReader.close();
+//        } catch (FileNotFoundException e) {
+//            System.out.println("An error occurred.");
+//            e.printStackTrace();
+//        }
+        String returnString = "Username: offline user\n" +
+                "Your Ship count: 0\n" +
+                "Your Joining Time: 2022-04-05T04:15:28.472Z\n" +
+                "Your Current Credits: 200000";
+        return returnString;
     }
 
 }

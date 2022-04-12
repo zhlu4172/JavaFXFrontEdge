@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.ChoiceBox?>
 
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="au.edu.sydney.soft3202.task2.SceneController.ClaimNewLoanController">
@@ -25,7 +26,8 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="type" prefHeight="43.0" prefWidth="291.0" />
+            <ChoiceBox fx:id="type" prefHeight="43.0" prefWidth="291.0" />
+
          </children>
       </HBox>
       <Label fx:id="state" layoutX="352.0" layoutY="357.0" text="Server state: " textOverrun="CENTER_WORD_ELLIPSIS">

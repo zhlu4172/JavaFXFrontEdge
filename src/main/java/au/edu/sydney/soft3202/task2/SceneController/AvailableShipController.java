@@ -1,7 +1,7 @@
 package au.edu.sydney.soft3202.task2.SceneController;
 
 import au.edu.sydney.soft3202.task2.MiniDB.UserParser;
-import au.edu.sydney.soft3202.task2.System.Game;
+import au.edu.sydney.soft3202.task2.System.SpaceTraderApp;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -10,9 +10,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
@@ -24,17 +21,11 @@ import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import javax.security.auth.callback.ChoiceCallback;
-import java.util.List;
-import java.util.Scanner;
 
 /**
  * @author Emma LU
@@ -70,7 +61,7 @@ public class AvailableShipController implements Clickable, Initializable {
                 }else if(parameters.equals("online")){
                     System.out.println("hi");
                     try{
-                        String addingToken = "token=" + Game.token;
+                        String addingToken = "token=" + SpaceTraderApp.token;
                         String uri = "https://api.spacetraders.io/my/account?" + addingToken;
                         HttpRequest request = HttpRequest.newBuilder(new URI(uri))
                                 .GET()
@@ -86,7 +77,7 @@ public class AvailableShipController implements Clickable, Initializable {
                         Parent loginSuccessRoot = loader.load();
                         LoginSuccessController loginSuccessController = loader.getController();
                         loginSuccessController.setUsername(gettingUsername);
-                        loginSuccessController.setToken(Game.token);
+                        loginSuccessController.setToken(SpaceTraderApp.token);
                         loginSuccessController.setGreeting(gettingUsername);
                         loginSuccessController.setState(parameters);
                         Scene loginSuccessScene = new Scene(loginSuccessRoot);
@@ -139,7 +130,7 @@ public class AvailableShipController implements Clickable, Initializable {
                     Parent myShipRoot = myShipLoader.load();
                     YourAvailableShipsController yourAvailableShipsController = myShipLoader.getController();
                     yourAvailableShipsController.setState(parameters);
-                    UserParser userParser = new UserParser(Game.username, Game.token);
+                    UserParser userParser = new UserParser(SpaceTraderApp.username, SpaceTraderApp.token);
                     yourAvailableShipsController.setMyAvailableShips(userParser);
                     Scene myShipScene = new Scene(myShipRoot);
                     Stage myShipStage = (Stage)(((Node) event.getSource()).getScene().getWindow());
@@ -179,7 +170,7 @@ public class AvailableShipController implements Clickable, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.parameters = Game.parameters;
+        this.parameters = SpaceTraderApp.parameters;
     }
 
     public void setState(String state){
@@ -234,7 +225,7 @@ public class AvailableShipController implements Clickable, Initializable {
 
     public HttpResponse<String> getAvailableShipsFromAPI(){
         try{
-            String addingToken = "token=" + Game.token;
+            String addingToken = "token=" + SpaceTraderApp.token;
             String uri = "https://api.spacetraders.io/my/ships?" + addingToken;
             HttpRequest request = HttpRequest.newBuilder(new URI(uri))
                     .GET()
@@ -270,20 +261,24 @@ public class AvailableShipController implements Clickable, Initializable {
     }
 
     public String readFakeInfoFile(){
-        String reading_string = "";
-        try {
-            File myObj = new File("src/main/resources/UserListJson/info.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine() + "\n";
-                reading_string += data;
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-        return reading_string;
+//        String reading_string = "";
+//        try {
+//            File myObj = new File("src/main/resources/UserListJson/info.txt");
+//            Scanner myReader = new Scanner(myObj);
+//            while (myReader.hasNextLine()) {
+//                String data = myReader.nextLine() + "\n";
+//                reading_string += data;
+//            }
+//            myReader.close();
+//        } catch (FileNotFoundException e) {
+//            System.out.println("An error occurred.");
+//            e.printStackTrace();
+//        }
+        String returnString = "Username: offline user\n" +
+                "Your Ship count: 0\n" +
+                "Your Joining Time: 2022-04-05T04:15:28.472Z\n" +
+                "Your Current Credits: 200000";
+        return returnString;
     }
 
 

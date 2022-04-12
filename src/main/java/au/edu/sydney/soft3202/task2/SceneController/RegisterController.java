@@ -1,7 +1,7 @@
 package au.edu.sydney.soft3202.task2.SceneController;
 
 import au.edu.sydney.soft3202.task2.MiniDB.UserParser;
-import au.edu.sydney.soft3202.task2.System.Game;
+import au.edu.sydney.soft3202.task2.System.SpaceTraderApp;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
@@ -12,12 +12,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.json.simple.JSONObject;
-import org.w3c.dom.Text;
-import wholepackage.UserPost;
 
 import java.net.URI;
 import java.net.URL;
@@ -69,7 +65,7 @@ public class RegisterController implements Initializable, Clickable{
                         try{
                             UserParser userParser = new UserParser(username.getText(), null);
                             user = userParser;
-                            userParser.createNewUser(getUsername());
+//                            userParser.createNewUser(getUsername());
                             token = userParser.getToken();
                             FXMLLoader registerSuccessLoader = new FXMLLoader(getClass().getResource("/AllPages/RegisterSuccess.fxml"));
                             Parent registerSuccessRoot = registerSuccessLoader.load();
@@ -148,7 +144,7 @@ public class RegisterController implements Initializable, Clickable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        parameters = Game.parameters;
+        parameters = SpaceTraderApp.parameters;
     }
 
     public String getUsername(){

@@ -1,6 +1,6 @@
 package au.edu.sydney.soft3202.task2.SceneController;
 
-import au.edu.sydney.soft3202.task2.System.Game;
+import au.edu.sydney.soft3202.task2.System.SpaceTraderApp;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
@@ -14,15 +14,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 /**
  * @author Emma LU
@@ -63,7 +60,7 @@ public class PurchaseShipSuccessfullyController implements Clickable, Initializa
             case "Button[id=info, styleClass=button]'Info'":
                 System.out.println("Hi");
                 if (parameters.equals("online")){
-                    String addingToken = "token=" + Game.token;
+                    String addingToken = "token=" + SpaceTraderApp.token;
                     String uri = "https://api.spacetraders.io/my/account?" + addingToken;
                     HttpRequest request = HttpRequest.newBuilder(new URI(uri))
                             .GET()
@@ -103,7 +100,7 @@ public class PurchaseShipSuccessfullyController implements Clickable, Initializa
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        parameters = Game.parameters;
+        parameters = SpaceTraderApp.parameters;
     }
 
     public void setState(String state){
@@ -121,20 +118,24 @@ public class PurchaseShipSuccessfullyController implements Clickable, Initializa
 
 
     public String readFakeInfoFile(){
-        String reading_string = "";
-        try {
-            File myObj = new File("src/main/resources/UserListJson/info.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine() + "\n";
-                reading_string += data;
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-        return reading_string;
+//        String reading_string = "";
+//        try {
+//            File myObj = new File("src/main/resources/UserListJson/info.txt");
+//            Scanner myReader = new Scanner(myObj);
+//            while (myReader.hasNextLine()) {
+//                String data = myReader.nextLine() + "\n";
+//                reading_string += data;
+//            }
+//            myReader.close();
+//        } catch (FileNotFoundException e) {
+//            System.out.println("An error occurred.");
+//            e.printStackTrace();
+//        }
+        String returnString = "Username: offline user\n" +
+                "Your Ship count: 0\n" +
+                "Your Joining Time: 2022-04-05T04:15:28.472Z\n" +
+                "Your Current Credits: 200000";
+        return returnString;
     }
 
 }

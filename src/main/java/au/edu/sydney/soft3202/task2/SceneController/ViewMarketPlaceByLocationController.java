@@ -2,11 +2,10 @@ package au.edu.sydney.soft3202.task2.SceneController;
 
 import au.edu.sydney.soft3202.task2.MiniDB.MarketPlaceParser;
 import au.edu.sydney.soft3202.task2.MiniDB.UserParser;
-import au.edu.sydney.soft3202.task2.System.Game;
+import au.edu.sydney.soft3202.task2.System.SpaceTraderApp;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.sun.javafx.scene.PerspectiveCameraHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,15 +20,12 @@ import javafx.stage.Stage;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 /**
  * @author Emma LU
@@ -59,7 +55,7 @@ public class ViewMarketPlaceByLocationController implements Clickable, Initializ
         initialize(null,null);
         setState(parameters);
         String button = event.getSource().toString();
-        UserParser userParser = new UserParser(Game.username, Game.token);
+        UserParser userParser = new UserParser(SpaceTraderApp.username, SpaceTraderApp.token);
         MarketPlaceParser marketPlaceParser = new MarketPlaceParser();
         switch (button){
             case"Button[id=back, styleClass=button]'Back'":
@@ -96,7 +92,6 @@ public class ViewMarketPlaceByLocationController implements Clickable, Initializ
                 break;
             case "Button[id=purchase, styleClass=button]'Purchase'":
                 if(parameters.equals("offline")){
-                    userParser.purchaseGood(Game.username,goodInput.getText(), quantityInput.getText(),shipIdInput.getText(),location,marketPlaceParser);
                     FXMLLoader purchaseGoodSuccessLoader = new FXMLLoader(getClass().getResource("/AllPages/PurchaseGoodsSuccess.fxml"));
                     Parent purchaseGoodSuccessRoot = purchaseGoodSuccessLoader.load();
                     PurchaseGoodsSuccessController purchaseGoodsSuccessController = purchaseGoodSuccessLoader.getController();
@@ -121,7 +116,6 @@ public class ViewMarketPlaceByLocationController implements Clickable, Initializ
                         ErrorPageController errorPageController = errorPageLoader.getController();
                         errorPageController.setState(parameters);
                         errorPageController.setErrormessage(purchaseGood());
-//                purchaseShipSuccessfullyController.setDetails();
                         Scene errorPageScene = new Scene(errorPageRoot);
                         Stage errorPageStage = (Stage)(((Node) event.getSource()).getScene().getWindow());
                         errorPageStage.setScene(errorPageScene);
@@ -157,7 +151,7 @@ public class ViewMarketPlaceByLocationController implements Clickable, Initializ
             case "Button[id=info, styleClass=button]'Info'":
                 System.out.println("Hi");
                 if (parameters.equals("online")){
-                    String addingToken = "token=" + Game.token;
+                    String addingToken = "token=" + SpaceTraderApp.token;
                     String uri = "https://api.spacetraders.io/my/account?" + addingToken;
                     HttpRequest request = HttpRequest.newBuilder(new URI(uri))
                             .GET()
@@ -204,7 +198,7 @@ public class ViewMarketPlaceByLocationController implements Clickable, Initializ
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        parameters = Game.parameters;
+        parameters = SpaceTraderApp.parameters;
     }
 
     public void setMarketPlacesText(MarketPlaceParser marketPlaceParser, String location){
@@ -278,7 +272,7 @@ public class ViewMarketPlaceByLocationController implements Clickable, Initializ
 
     public void setShipChoices(){
         try{
-            String addingToken = "token=" + Game.token;
+            String addingToken = "token=" + SpaceTraderApp.token;
             String uri = "https://api.spacetraders.io/my/ships?" + addingToken;
             HttpRequest request = HttpRequest.newBuilder(new URI(uri))
                     .GET()
@@ -303,7 +297,7 @@ public class ViewMarketPlaceByLocationController implements Clickable, Initializ
 
     public String purchaseGood(){
         try{
-            String uri = "https://api.spacetraders.io/my/purchase-orders?token=" + Game.token + "&shipId=" + ShipIdChoices.getValue()
+            String uri = "https://api.spacetraders.io/my/purchase-orders?token=" + SpaceTraderApp.token + "&shipId=" + ShipIdChoices.getValue()
                     + "&good=" + goodChoices.getValue() + "&quantity=" + quantityInput.getText();
             System.out.println(uri + "hi");
             HttpRequest request = HttpRequest.newBuilder(new URI(uri))
@@ -329,7 +323,7 @@ public class ViewMarketPlaceByLocationController implements Clickable, Initializ
 
     public String sellGood(){
         try{
-            String uri = "https://api.spacetraders.io/my/sell-orders?token=" + Game.token + "&shipId=" + ShipIdChoices.getValue()
+            String uri = "https://api.spacetraders.io/my/sell-orders?token=" + SpaceTraderApp.token + "&shipId=" + ShipIdChoices.getValue()
                     + "&good=" + goodChoices.getValue() + "&quantity=" + quantityInput.getText();
             System.out.println(uri + "hi");
             HttpRequest request = HttpRequest.newBuilder(new URI(uri))
@@ -354,20 +348,24 @@ public class ViewMarketPlaceByLocationController implements Clickable, Initializ
     }
 
     public String readFakeInfoFile(){
-        String reading_string = "";
-        try {
-            File myObj = new File("src/main/resources/UserListJson/info.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine() + "\n";
-                reading_string += data;
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-        return reading_string;
+//        String reading_string = "";
+//        try {
+//            File myObj = new File("src/main/resources/UserListJson/info.txt");
+//            Scanner myReader = new Scanner(myObj);
+//            while (myReader.hasNextLine()) {
+//                String data = myReader.nextLine() + "\n";
+//                reading_string += data;
+//            }
+//            myReader.close();
+//        } catch (FileNotFoundException e) {
+//            System.out.println("An error occurred.");
+//            e.printStackTrace();
+//        }
+        String returnString = "Username: offline user\n" +
+                "Your Ship count: 0\n" +
+                "Your Joining Time: 2022-04-05T04:15:28.472Z\n" +
+                "Your Current Credits: 200000";
+        return returnString;
     }
 
 

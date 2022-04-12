@@ -1,7 +1,7 @@
 package au.edu.sydney.soft3202.task2.SceneController;
 
 
-import au.edu.sydney.soft3202.task2.System.Game;
+import au.edu.sydney.soft3202.task2.System.SpaceTraderApp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,11 +10,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import java.awt.*;
-import java.io.IOException;
+
 import java.net.URL;
 import java.util.*;
-import java.util.List;
+
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
@@ -66,7 +65,7 @@ public class DefaultController implements Initializable, Clickable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        parameters = Game.parameters;
+        parameters = SpaceTraderApp.parameters;
     }
 
     public void setState(String state){

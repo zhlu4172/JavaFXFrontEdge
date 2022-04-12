@@ -10,7 +10,7 @@
    <children>
       <Button fx:id="back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#buttonActionController" text="Back" />
       <Button fx:id="home" layoutX="273.0" layoutY="15.0" mnemonicParsing="false" onAction="#buttonActionController" text="Home" />
-      <Button fx:id="zhuyi" layoutX="531.0" layoutY="15.0" mnemonicParsing="false" onAction="#buttonActionController" text="Zhuyi" />
+      <Button fx:id="info" layoutX="531.0" layoutY="15.0" mnemonicParsing="false" onAction="#buttonActionController" text="Info" />
       <Label layoutX="31.0" layoutY="176.0" text="Congratulations! You bought the ship successfully!">
          <font>
             <Font name="Arial" size="24.0" />

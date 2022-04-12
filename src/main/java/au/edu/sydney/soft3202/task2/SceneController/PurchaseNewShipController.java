@@ -1,7 +1,6 @@
 package au.edu.sydney.soft3202.task2.SceneController;
 
-import au.edu.sydney.soft3202.task2.MiniDB.UserParser;
-import au.edu.sydney.soft3202.task2.System.Game;
+import au.edu.sydney.soft3202.task2.System.SpaceTraderApp;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -20,6 +19,7 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Scanner;
+import java.util.List;
 
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -28,7 +28,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.w3c.dom.Text;
 
 /**
  * @author Emma LU
@@ -39,6 +38,7 @@ public class PurchaseNewShipController implements Clickable, Initializable {
     private String newState;
     private String shipSymbol;
     private String plantSymbol;
+
 
     @FXML
     private Label state;
@@ -137,26 +137,31 @@ public class PurchaseNewShipController implements Clickable, Initializable {
                 defaultStage.show();
                 break;
             case "Button[id=back, styleClass=button]'Back'":
-                FXMLLoader availableShipLoader = new FXMLLoader(getClass().getResource("/AllPages/AvailableShips.fxml"));
-                Parent availableShipRoot = availableShipLoader.load();
-                AvailableShipController availableShipController = availableShipLoader.getController();
-                availableShipController.setState(parameters);
-                UserParser userParser2 = new UserParser(Game.username,Game.token);
-                availableShipController.setAvailableShipDetails(userParser2);
-                Scene availableShipsScene = new Scene(availableShipRoot);
-                Stage availableShipsStage = (Stage)(((Node) event.getSource()).getScene().getWindow());
-                availableShipsStage.setScene(availableShipsScene);
-                availableShipsStage.show();
+                FXMLLoader selectShipClassLoader = new FXMLLoader(getClass().getResource("/AllPages/SelectShipClass.fxml"));
+                Parent selectShipClassRoot = selectShipClassLoader.load();
+                SelectAvailableShipClassController selectAvailableShipClassController  = selectShipClassLoader.getController();
+                selectAvailableShipClassController.setState(parameters);
+                if (parameters.equals("online")){
+                    selectAvailableShipClassController.setChoices();
+                }
+
+                Scene selectShipClassScene = new Scene(selectShipClassRoot);
+                Stage selectShipClassStage = (Stage)(((Node) event.getSource()).getScene().getWindow());
+                selectShipClassStage.setScene(selectShipClassScene);
+                selectShipClassStage.show();
+
+
             case "Button[id=choose1, styleClass=button]'Choose'":
                 setLocationChoices(getLocations());
                 break;
             case "Button[id=choose2, styleClass=button]'Choose'":
-                setShipChoice(getAvailableShips());
+                setShipChoicesExact(getAvailableLocations(this.locationChoice.getValue().toString()));
+//                setShipChoice(getAvailableShips());
                 break;
             case "Button[id=info, styleClass=button]'Info'":
                 System.out.println("Hi");
                 if (parameters.equals("online")){
-                    String addingToken = "token=" + Game.token;
+                    String addingToken = "token=" + SpaceTraderApp.token;
                     String uri = "https://api.spacetraders.io/my/account?" + addingToken;
                     HttpRequest request = HttpRequest.newBuilder(new URI(uri))
                             .GET()
@@ -195,7 +200,7 @@ public class PurchaseNewShipController implements Clickable, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        parameters = Game.parameters;
+        parameters = SpaceTraderApp.parameters;
     }
 
     public void setState(String state){
@@ -235,7 +240,7 @@ public class PurchaseNewShipController implements Clickable, Initializable {
 
     public JsonObject getLocations(){
         try{
-            String addingToken = "token=" + Game.token;
+            String addingToken = "token=" + SpaceTraderApp.token;
             String systemStr = systemChoices.getValue().toString();
             String uri = "https://api.spacetraders.io/systems/" + systemStr + "/locations?" + addingToken;
             System.out.println(uri);
@@ -267,7 +272,10 @@ public class PurchaseNewShipController implements Clickable, Initializable {
             ArrayList<String> shipTypes = new ArrayList<>();
             for (int i = 0; i < shipsArray.size(); i++){
                 JsonObject shipObject = shipsArray.get(i).getAsJsonObject();
+                System.out.println(shipObject + "--------------------------------------------------------------");
                 String types = shipObject.get("type").getAsString();
+                String shipClass = shipObject.get("class").getAsString();
+//                String location = shipObject.get("")
                 if (!shipTypes.contains(types)){
                     shipTypes.add(types);
                 }
@@ -282,7 +290,7 @@ public class PurchaseNewShipController implements Clickable, Initializable {
 
     public JsonObject getAvailableShips(){
         try{
-            String addingToken = "token=" + Game.token;
+            String addingToken = "token=" + SpaceTraderApp.token;
             String uri = "https://api.spacetraders.io/types/ships?" + addingToken;
             HttpRequest request = HttpRequest.newBuilder(new URI(uri))
                     .GET()
@@ -301,7 +309,7 @@ public class PurchaseNewShipController implements Clickable, Initializable {
 
     public HttpResponse<String> purchaseShip(){
         try{
-            String addingToken = "token=" + Game.token;
+            String addingToken = "token=" + SpaceTraderApp.token;
             String addingLocation = "&location=" + locationChoice.getValue().toString();
             String addingType = "&type=" + shipChoice.getValue().toString();
             String uri = "https://api.spacetraders.io/my/ships?" + addingToken + addingLocation + addingType;
@@ -346,6 +354,46 @@ public class PurchaseNewShipController implements Clickable, Initializable {
             e.printStackTrace();
         }
         return reading_string;
+    }
+
+    public List<String> getAvailableLocations(String locationClass){
+        try{
+            String addingToken = "token=" + SpaceTraderApp.token;
+            String uri = "https://api.spacetraders.io/systems/OE/ship-listings?" + addingToken;
+            HttpRequest request = HttpRequest.newBuilder(new URI(uri))
+                    .GET()
+                    .build();
+            HttpClient client = HttpClient.newBuilder().build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            String responseBody = response.body();
+            JsonObject userPost = getUserPost(responseBody);
+            List<String> returnString = new ArrayList<>();
+            JsonArray shippingLists = userPost.get("shipListings").getAsJsonArray();
+            for (int i = 0; i < shippingLists.size(); i++){
+                JsonObject ship = shippingLists.get(i).getAsJsonObject();
+                String gettingShipType = ship.get("type").getAsString();
+                JsonArray purchaseLocations = ship.get("purchaseLocations").getAsJsonArray();
+                ArrayList<String> gettingAvailableLocations = new ArrayList<>();
+                for (int j = 0; j < purchaseLocations.size(); j++){
+                    JsonObject purchaseLocation = purchaseLocations.get(j).getAsJsonObject();
+                    String location = purchaseLocation.get("location").getAsString();
+                    gettingAvailableLocations.add(location);
+                }
+                if(gettingAvailableLocations.contains(locationClass)){
+                    returnString.add(gettingShipType);
+                }
+            }
+            return returnString;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void setShipChoicesExact(List<String> shipList){
+        for (int i = 0; i < shipList.size(); i++){
+            this.shipChoice.getItems().add(shipList.get(i));
+        }
     }
 
 

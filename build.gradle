@@ -22,7 +22,7 @@ dependencies  {
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 }
 application {
-    mainClass = 'au.edu.sydney.soft3202.task2.System.Game'
+    mainClass = 'au.edu.sydney.soft3202.task2.System.SpaceTraderApp'
 }
 
 javafx {

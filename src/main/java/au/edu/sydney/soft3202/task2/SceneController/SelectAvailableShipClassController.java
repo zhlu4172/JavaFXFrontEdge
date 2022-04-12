@@ -1,18 +1,15 @@
 package au.edu.sydney.soft3202.task2.SceneController;
 
 import au.edu.sydney.soft3202.task2.MiniDB.UserParser;
-import au.edu.sydney.soft3202.task2.System.Game;
+import au.edu.sydney.soft3202.task2.System.SpaceTraderApp;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpClient;
@@ -20,7 +17,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -46,7 +42,7 @@ public class SelectAvailableShipClassController implements Clickable, Initializa
         initialize(null,null);
         setState(parameters);
         String button = event.getSource().toString();
-        UserParser userParser = new UserParser(Game.username,Game.token);
+        UserParser userParser = new UserParser(SpaceTraderApp.username, SpaceTraderApp.token);
         switch (button){
             case"Button[id=confirm, styleClass=button]'Confirm'":
                 if (parameters.equals("online")){
@@ -100,7 +96,7 @@ public class SelectAvailableShipClassController implements Clickable, Initializa
                     loginSuccessStage.show();
                 }else if(parameters.equals("online")) {
                     try {
-                        String addingToken = "token=" + Game.token;
+                        String addingToken = "token=" + SpaceTraderApp.token;
                         String uri = "https://api.spacetraders.io/my/account?" + addingToken;
                         HttpRequest request = HttpRequest.newBuilder(new URI(uri))
                                 .GET()
@@ -116,7 +112,7 @@ public class SelectAvailableShipClassController implements Clickable, Initializa
                         Parent loginSuccessRoot = loader.load();
                         LoginSuccessController loginSuccessController = loader.getController();
                         loginSuccessController.setUsername(gettingUsername);
-                        loginSuccessController.setToken(Game.token);
+                        loginSuccessController.setToken(SpaceTraderApp.token);
                         loginSuccessController.setGreeting(gettingUsername);
                         loginSuccessController.setState(parameters);
                         Scene loginSuccessScene = new Scene(loginSuccessRoot);
@@ -132,7 +128,7 @@ public class SelectAvailableShipClassController implements Clickable, Initializa
             case "Button[id=info, styleClass=button]'Info'":
                 System.out.println("Hi");
                 if (parameters.equals("online")){
-                    String addingToken = "token=" + Game.token;
+                    String addingToken = "token=" + SpaceTraderApp.token;
                     String uri = "https://api.spacetraders.io/my/account?" + addingToken;
                     HttpRequest request = HttpRequest.newBuilder(new URI(uri))
                             .GET()
@@ -212,7 +208,7 @@ public class SelectAvailableShipClassController implements Clickable, Initializa
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.parameters = Game.parameters;
+        this.parameters = SpaceTraderApp.parameters;
     }
 
     public void setState(String state){
@@ -248,7 +244,7 @@ public class SelectAvailableShipClassController implements Clickable, Initializa
 
     public JsonObject getAvailableShips(){
         try{
-            String addingToken = "token=" + Game.token;
+            String addingToken = "token=" + SpaceTraderApp.token;
             String uri = "https://api.spacetraders.io/types/ships?" + addingToken;
             HttpRequest request = HttpRequest.newBuilder(new URI(uri))
                     .GET()
@@ -267,7 +263,7 @@ public class SelectAvailableShipClassController implements Clickable, Initializa
 
     public JsonObject getAvailableShipsAsForClass(String shipClass){
         try{
-            String addingToken = "token=" + Game.token;
+            String addingToken = "token=" + SpaceTraderApp.token;
             String uri = "https://api.spacetraders.io/types/ships?" + addingToken + "&class=" + shipClass;
             System.out.println(uri);
             HttpRequest request = HttpRequest.newBuilder(new URI(uri))
@@ -300,7 +296,7 @@ public class SelectAvailableShipClassController implements Clickable, Initializa
 
     public HttpResponse<String> getAvailableShipsFromAPI(){
         try{
-            String addingToken = "token=" + Game.token;
+            String addingToken = "token=" + SpaceTraderApp.token;
             String uri = "https://api.spacetraders.io/my/ships?" + addingToken;
             HttpRequest request = HttpRequest.newBuilder(new URI(uri))
                     .GET()
@@ -318,20 +314,24 @@ public class SelectAvailableShipClassController implements Clickable, Initializa
     }
 
     public String readFakeInfoFile(){
-        String reading_string = "";
-        try {
-            File myObj = new File("src/main/resources/Ships/shipsOnline.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine() + "\n";
-                reading_string += data;
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-        return reading_string;
+//        String reading_string = "";
+//        try {
+//            File myObj = new File("src/main/resources/UserListJson/info.txt");
+//            Scanner myReader = new Scanner(myObj);
+//            while (myReader.hasNextLine()) {
+//                String data = myReader.nextLine() + "\n";
+//                reading_string += data;
+//            }
+//            myReader.close();
+//        } catch (FileNotFoundException e) {
+//            System.out.println("An error occurred.");
+//            e.printStackTrace();
+//        }
+        String returnString = "Username: offline user\n" +
+                "Your Ship count: 0\n" +
+                "Your Joining Time: 2022-04-05T04:15:28.472Z\n" +
+                "Your Current Credits: 200000";
+        return returnString;
     }
 
 

@@ -1,6 +1,6 @@
 package au.edu.sydney.soft3202.task2.SceneController;
 
-import au.edu.sydney.soft3202.task2.System.Game;
+import au.edu.sydney.soft3202.task2.System.SpaceTraderApp;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
@@ -13,16 +13,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 /**
  * @author Emma LU
@@ -52,40 +48,69 @@ public class ErrorPageController implements Clickable, Initializable {
                 defaultStage.show();
                 break;
             case "Button[id=back, styleClass=button]'Back'":
-                if (parameters.equals("online")){
-                    try{
-                        String addingToken = "token=" + Game.token;
-                        String uri = "https://api.spacetraders.io/my/account?" + addingToken;
-                        HttpRequest request = HttpRequest.newBuilder(new URI(uri))
-                                .GET()
-                                .build();
+                try{
+                    if (parameters.equals("online")){
+                        try{
+                            String addingToken = "token=" + SpaceTraderApp.token;
+                            String uri = "https://api.spacetraders.io/my/account?" + addingToken;
+                            HttpRequest request = HttpRequest.newBuilder(new URI(uri))
+                                    .GET()
+                                    .build();
 
-                        HttpClient client = HttpClient.newBuilder().build();
-                        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                        String responseBody = response.body();
-                        int statusCode = response.statusCode();
-                        JsonObject userPost = getUserPost(responseBody);
-                        String gettingUsername = userPost.get("user").getAsJsonObject().get("username").getAsString();
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/AllPages/LoginSuccessfulMainPage.fxml"));
-                        Parent loginSuccessRoot = loader.load();
-                        LoginSuccessController loginSuccessController = loader.getController();
-                        loginSuccessController.setUsername(gettingUsername);
-                        loginSuccessController.setToken(Game.token);
-                        loginSuccessController.setGreeting(gettingUsername);
-                        loginSuccessController.setState(parameters);
-                        Scene loginSuccessScene = new Scene(loginSuccessRoot);
-                        Stage loginSuccessStage = (Stage)(((Node) event.getSource()).getScene().getWindow());
-                        loginSuccessStage.setScene(loginSuccessScene);
-                        loginSuccessStage.show();
-                    }catch(Exception exception){
-                        exception.printStackTrace();
+                            HttpClient client = HttpClient.newBuilder().build();
+                            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                            String responseBody = response.body();
+                            int statusCode = response.statusCode();
+                            JsonObject userPost = getUserPost(responseBody);
+                            String gettingUsername = userPost.get("user").getAsJsonObject().get("username").getAsString();
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AllPages/LoginSuccessfulMainPage.fxml"));
+                            Parent loginSuccessRoot = loader.load();
+                            LoginSuccessController loginSuccessController = loader.getController();
+                            loginSuccessController.setUsername(gettingUsername);
+                            loginSuccessController.setToken(SpaceTraderApp.token);
+                            loginSuccessController.setGreeting(gettingUsername);
+                            loginSuccessController.setState(parameters);
+                            Scene loginSuccessScene = new Scene(loginSuccessRoot);
+                            Stage loginSuccessStage = (Stage)(((Node) event.getSource()).getScene().getWindow());
+                            loginSuccessStage.setScene(loginSuccessScene);
+                            loginSuccessStage.show();
+                        }catch(Exception exception){
+                            exception.printStackTrace();
+                            FXMLLoader defaultLoader2 = new FXMLLoader(getClass().getResource("/AllPages/default.fxml"));
+                            Parent defaultRoot2 = defaultLoader2.load();
+                            DefaultController defaultController2 = defaultLoader2.getController();
+                            defaultController2.setState(parameters);
+                            Scene defaultScene2 = new Scene(defaultRoot2);
+                            Stage defaultStage2 = (Stage)(((Node) event.getSource()).getScene().getWindow());
+                            defaultStage2.setScene(defaultScene2);
+                            defaultStage2.show();
+                        }
+                    }else{
+                        FXMLLoader defaultLoader2 = new FXMLLoader(getClass().getResource("/AllPages/default.fxml"));
+                        Parent defaultRoot2 = defaultLoader2.load();
+                        DefaultController defaultController2 = defaultLoader2.getController();
+                        defaultController2.setState(parameters);
+                        Scene defaultScene2 = new Scene(defaultRoot2);
+                        Stage defaultStage2 = (Stage)(((Node) event.getSource()).getScene().getWindow());
+                        defaultStage2.setScene(defaultScene2);
+                        defaultStage2.show();
                     }
+                }catch(Exception e){
+                    FXMLLoader defaultLoader2 = new FXMLLoader(getClass().getResource("/AllPages/default.fxml"));
+                    Parent defaultRoot2 = defaultLoader2.load();
+                    DefaultController defaultController2 = defaultLoader2.getController();
+                    defaultController2.setState(parameters);
+                    Scene defaultScene2 = new Scene(defaultRoot2);
+                    Stage defaultStage2 = (Stage)(((Node) event.getSource()).getScene().getWindow());
+                    defaultStage2.setScene(defaultScene2);
+                    defaultStage2.show();
                 }
+
                 break;
             case "Button[id=info, styleClass=button]'Info'":
                 System.out.println("Hi");
                 if (parameters.equals("online")){
-                    String addingToken = "token=" + Game.token;
+                    String addingToken = "token=" + SpaceTraderApp.token;
                     String uri = "https://api.spacetraders.io/my/account?" + addingToken;
                     HttpRequest request = HttpRequest.newBuilder(new URI(uri))
                             .GET()
@@ -125,7 +150,7 @@ public class ErrorPageController implements Clickable, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        parameters = Game.parameters;
+        parameters = SpaceTraderApp.parameters;
     }
 
     public void setState(String state){
@@ -144,19 +169,23 @@ public class ErrorPageController implements Clickable, Initializable {
     }
 
     public String readFakeInfoFile(){
-        String reading_string = "";
-        try {
-            File myObj = new File("src/main/resources/UserListJson/info.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine() + "\n";
-                reading_string += data;
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-        return reading_string;
+//        String reading_string = "";
+//        try {
+//            File myObj = new File("src/main/resources/UserListJson/info.txt");
+//            Scanner myReader = new Scanner(myObj);
+//            while (myReader.hasNextLine()) {
+//                String data = myReader.nextLine() + "\n";
+//                reading_string += data;
+//            }
+//            myReader.close();
+//        } catch (FileNotFoundException e) {
+//            System.out.println("An error occurred.");
+//            e.printStackTrace();
+//        }
+        String returnString = "Username: offline user\n" +
+                "Your Ship count: 0\n" +
+                "Your Joining Time: 2022-04-05T04:15:28.472Z\n" +
+                "Your Current Credits: 200000";
+        return returnString;
     }
 }

@@ -1,7 +1,7 @@
 package au.edu.sydney.soft3202.task2.SceneController;
 
 import au.edu.sydney.soft3202.task2.MiniDB.UserParser;
-import au.edu.sydney.soft3202.task2.System.Game;
+import au.edu.sydney.soft3202.task2.System.SpaceTraderApp;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
@@ -11,13 +11,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.json.simple.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -26,7 +23,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 /**
  * @author Emma LU
@@ -40,7 +36,7 @@ public class ClaimNewLoanController implements Clickable, Initializable {
     @FXML
     private Label state;
     @FXML
-    private TextField type;
+    private ChoiceBox type;
 
     @Override
     public void buttonActionController(ActionEvent event) throws Exception {
@@ -53,7 +49,7 @@ public class ClaimNewLoanController implements Clickable, Initializable {
                     FXMLLoader claimLoanSuccessfulLoader = new FXMLLoader(getClass().getResource("/AllPages/ClaimLoanSuccess.fxml"));
                     Parent claimLoanSuccessfulRoot = claimLoanSuccessfulLoader.load();
                     ClaimLoanSuccessfulController claimLoanSuccessfulController = claimLoanSuccessfulLoader.getController();
-                    UserParser userParser = new UserParser(Game.username,Game.token);
+                    UserParser userParser = new UserParser(SpaceTraderApp.username, SpaceTraderApp.token);
 //                    userParser.activateLoan(Game.username);
 //                    userParser.updateCreditsJson(Game.username, (long)200000);
                     claimLoanSuccessfulController.setState(parameters);
@@ -102,22 +98,38 @@ public class ClaimNewLoanController implements Clickable, Initializable {
                 defaultStage.show();
                 break;
             case"Button[id=back, styleClass=button]'Back'":
+
                 FXMLLoader availableLoanLoader = new FXMLLoader(getClass().getResource("/AllPages/AvailableLoans.fxml"));
                 Parent availableLoanRoot = availableLoanLoader.load();
                 AvailableLoanController availableLoanController = availableLoanLoader.getController();
                 availableLoanController.setState(parameters);
-                System.out.println(Game.token);
-                UserParser userParser2 = new UserParser(Game.username,Game.token);
-                availableLoanController.setAvailableLoans(userParser2.getAvailableLoans());
+                if (parameters.equals("online")){
+                    String addingToken = "token=" + SpaceTraderApp.token;
+                    String uri = "https://api.spacetraders.io/types/loans?" + addingToken;
+                    HttpRequest request = HttpRequest.newBuilder(new URI(uri))
+                            .GET()
+                            .build();
+                    HttpClient client = HttpClient.newBuilder().build();
+                    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                    String responseBody = response.body();
+                    JsonObject userPost = getUserPost(responseBody);
+                    System.out.println(userPost);
+                    availableLoanController.setAvailableLoansOnline(userPost);
+                }
+//                    System.out.println(Game.token);
+//                    UserParser userParser2 = new UserParser(Game.username,Game.token);
+//                    availableLoanController.setAvailableLoans(userParser2.getAvailableLoans());
                 Scene availableLoanScene = new Scene(availableLoanRoot);
                 Stage availableLoanStage = (Stage)(((Node) event.getSource()).getScene().getWindow());
                 availableLoanStage.setScene(availableLoanScene);
                 availableLoanStage.show();
+
+
                 break;
             case "Button[id=info, styleClass=button]'Info'":
                 System.out.println("Hi");
                 if (parameters.equals("online")){
-                    String addingToken = "token=" + Game.token;
+                    String addingToken = "token=" + SpaceTraderApp.token;
                     String uri = "https://api.spacetraders.io/my/account?" + addingToken;
                     HttpRequest request = HttpRequest.newBuilder(new URI(uri))
                             .GET()
@@ -157,7 +169,7 @@ public class ClaimNewLoanController implements Clickable, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.parameters = Game.parameters;
+        this.parameters = SpaceTraderApp.parameters;
     }
 
     public void setState(String state){
@@ -166,11 +178,11 @@ public class ClaimNewLoanController implements Clickable, Initializable {
     }
 
     public void setGettingType(){
-        gettingType = type.getText();
+        gettingType = type.getValue().toString();
     }
 
     public HttpResponse<String> claimNewLoan() throws IOException, InterruptedException, URISyntaxException {
-        String uri = "https://api.spacetraders.io/my/loans?token=" + Game.token + "&type=" + gettingType;
+        String uri = "https://api.spacetraders.io/my/loans?token=" + SpaceTraderApp.token + "&type=" + gettingType;
         System.out.println(uri + "hi");
         HttpRequest request = HttpRequest.newBuilder(new URI(uri))
                 .POST(HttpRequest.BodyPublishers.noBody())
@@ -211,19 +223,27 @@ public class ClaimNewLoanController implements Clickable, Initializable {
     }
 
     public String readFakeInfoFile(){
-        String reading_string = "";
-        try {
-            File myObj = new File("src/main/resources/UserListJson/info.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine() + "\n";
-                reading_string += data;
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-        return reading_string;
+//        String reading_string = "";
+//        try {
+//            File myObj = new File("src/main/resources/UserListJson/info.txt");
+//            Scanner myReader = new Scanner(myObj);
+//            while (myReader.hasNextLine()) {
+//                String data = myReader.nextLine() + "\n";
+//                reading_string += data;
+//            }
+//            myReader.close();
+//        } catch (FileNotFoundException e) {
+//            System.out.println("An error occurred.");
+//            e.printStackTrace();
+//        }
+        String returnString = "Username: offline user\n" +
+                "Your Ship count: 0\n" +
+                "Your Joining Time: 2022-04-05T04:15:28.472Z\n" +
+                "Your Current Credits: 200000";
+        return returnString;
+    }
+
+    public void setType(){
+        this.type.getItems().add("STARTUP");
     }
 }
